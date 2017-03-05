@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled Document</title>
+    <!-- Bootstrap -->
+  <link href="bootstrap.css" rel="stylesheet">
+
+    <title>Click on either disease to learn more.</title>
+    <style type="text/css">
+      html, body { height: 100%; margin: 50; padding: 15;}
+      #map-canvas { height: 80%; width: 100%; margin: 0; padding: 0; }
+    </style>
+
+
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIXnuQOH674vFOPVaxIwA02NiKiU0IIeY">
+    </script>
+    <script type="text/javascript">
+
+
+      var map;    // A variable to hold the map document
+      var kml_path;   // to hold the file path for a KML file
+      var kml_map;    // to represent a map layer
+      var kml_base; 
+      var kml_coal; 
+
+
+      //toggle this function when you want to show coal layers 
+      function toggle_coal(mycoalminesButton){
+
+        var showCoal; 
+
+        showCoal = mycoalminesButton.value; 
+
+        if (showCoal == "On" ){ 
+
+            kml_coal = new google.maps.KmlLayer({
+            url: "https://sites.google.com/site/geog54files/allegra_codamon/CoalSurfaceMines.kmz",
+            preserveViewport: true
+            });
+            kml_map.setMap(map); 
+            kml_coal.setMap(map);       
+
+        }
+        else if (showCoal == "Off" ){
+            kml_map.setMap(map); 
+            kml_coal.setMap(null); 
+        }
+      }
+
+      //toggle this function to show the disease overlays 
+      function toggle_overlay(myRadioButton) {
+
+        var textString; // Local variable for map caption text    
+        var showLayer; // Local variable for year to show
+        
+        showLayer = myRadioButton.value; // Look at Radio button
+
+  
+        kml_map.setMap(null);
+
+
+        // Next, determine which year is being shown
+        if (showLayer == "Lung") {
+                kml_path = 
+                "https://sites.google.com/site/geog54files/allegra_codamon/Lung_disease.kmz";
+
+                textString = "<p>Legend</p> <img src = images/Lung_Legend.jpg><p>Lung disease is common among coal workers, who inhale the particulates while in the mines all day. But the emissions often spread beyond the mines. A 2014 study from the West Virginia University Mary Babb Cancer Center found that living close to mines was correlated with incidences of lung cancer within the state.";
+
+              } 
+        else if (showLayer == "Cancer") {
+
+                  kml_path = "https://sites.google.com/site/geog54files/allegra_codamon/Brain.kmz";
+                  textString = "<p>Legend</p> <img src = images/Brain_Legend.jpg><p>Studies have found correlations between the incidence of brain and other nervous system (ONS) cancers and proximity to mining sites. The emissions and particulates from mines, especially from surface level mines, will enter the surrounding air and water and are often carcinogens.";
+
+              }  
+        
+        
+        //  BELOW IS THE 1st CODE SNIPPET
+                
+        // Now, create the new layer and add it to the map
+
+          if (showLayer == "None") {
+            textString = "<p>Click on one of the below to learn more about the health costs of mining</p>";  
+            kml_map.setMap(null) ;
+          } else if (showLayer == "Cancer" || showLayer == "Lung"){
+            kml_map = new google.maps.KmlLayer({
+                url: kml_path,
+                preserveViewport: true });
+
+                kml_map.setMap(map);
+          } 
+
+        
+        // Finally, set the map caption
+
+        document.getElementById('my-text').innerHTML = textString;
+
+          } // End of function toggle_overlay()
+
+
+
+      // *************************************************************
+      // This Javascript function initializes (sets up) the map.  It   
+      // will be called when the web page is first loaded.         
+      // *************************************************************
+
+      function initialize() {
+
+      // 
+      // Set various options for the map (center lat/lon, zoom level,
+      // and map type.
+      //
+
+      var mapOptions = {
+        center: { lat: 39, lng: -81.4873},
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      };
+
+      // 
+      // Create the map!  This will insert the map canvas into the
+      // previously-empty "div" tag below, in the HTML body
+      //
+
+      map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+
+
+      kml_map = new google.maps.KmlLayer({
+                    url: kml_path,
+                    preserveViewport: true });
+
+
+      kml_map.setMap(map);
+                document.getElementById('my-text').innerHTML = textString;
+      }
+
+
+
+
+      // *************************************************************
+      // End of the Javascript function initialize().  
+      // *************************************************************
+ 
+    </script>
+
+  </head>
+
+  <!-- *************************************************************** -->
+  <!-- Here is the body of the web page.  It displays text and a map.  -->
+  <!-- Note the call to "initialize()" when the body is loaded.        -->
+  <!-- *************************************************************** -->
+
+  <body onload="initialize()">
+
+      <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topFixedNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="home.html">Mining In West Virginia</a></div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li><a href="health.html">Health </a></li>
+          <li><a href="topography.html">Topography</a></li>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+  <script src="jquery-1.11.2.min.js"></script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed --> 
+  <script src="bootstrap.js"></script>
+
+    <!-- *************************************************************** -->
+    <!-- The following div appears to be empty, but will hold the map  -->
+    <!-- canvas (see Javascript function "initialize()" above).    -->
+    <!-- *************************************************************** -->
+
+    <div id="map-canvas"></div>
+
+    <!-- *************************************************************** -->
+    <!-- The following div holds text to describe the map.  Its contents -->
+    <!-- will be changed by the function "toggle_overlay()".
+    <!-- *************************************************************** -->
+
+    <div id="my-text"><p>Click on either disease to learn more.</p></div>
+
+    <!-- *************************************************************** -->
+    <!-- The following div holds a Radio-type control.  When clicked, -->
+    <!-- it calls the Javascript function "toggle_overlay()" to either   -->
+    <!-- show or hide the 2010 map overlay.            -->
+    <!-- *************************************************************** -->
+
+    <div id="my-controls">
+      <p> <b> Disease Incidence Maps </b></p> 
+      <form>
+        <input type="radio" name="my-Radio" value="Lung" 
+        onclick="toggle_overlay(this);">Lung Disease
+        <br>
+        <input type="radio" name="my-Radio" value="Cancer"
+        onclick="toggle_overlay(this);">Brain and Other ONS Cancers
+        <br>
+
+      </form>
+
+    <!--  AND THE SECOND CODE SNIPPET -->
+    
+
+      <p> <b> Display Surface Mine Locations </b></p> 
+      </form> 
+        <input type="radio" name="my-coalmines" value="On"
+        onclick="toggle_coal(this);">Show 
+        <br>
+        <input type="radio" name="my-coalmines" value="Off"
+        onclick="toggle_coal(this);">Hide 
+      <form>
+
+
+      </form>
+
+    </div>
+
+  </body>
+
+</html>
