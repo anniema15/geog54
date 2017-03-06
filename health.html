@@ -55,32 +55,6 @@
             kml_coal.setMap(null); 
         }
       }
-            //toggle this function when you want to show coal layers 
-      function toggle_names(myNamesButton){
-
-        //holds the value returned by the coal layer raio button 
-        var showNames; 
-        showNames = myNames.value; 
-
-
-        //display the mines if the button is pressed, otherwise draw the disease layer and clear the mines layer
-        if (showNames == "On" ){ 
-
-            kml_names = new google.maps.KmlLayer({
-            url: "https://sites.google.com/site/geog54files/allegra_codamon/WV_Counties.kmz",
-            preserveViewport: true
-            });
-            kml_map.setMap(map); 
-            kml_coal.setMap(map); 
-            kml_names.setMap(map); 
-
-        }
-        else if (showNames == "Off" ){
-            kml_map.setMap(map); 
-            kml_coal.setMap(map); 
-            kml_names.setMap(null); 
-        }
-      }
 
       //toggle this function to show the disease overlays 
       function toggle_overlay(myRadioButton) {
@@ -216,15 +190,6 @@
 
       </form>
       
-      <p> <b> Display County Names </b></p> 
-      <form> 
-        <input type="radio" name="my-names" value="On"
-        onclick="toggle_names(this);">Show 
-        <br>
-        <input type="radio" name="my-names" value="Off"
-        onclick="toggle_names(this);">Hide 
-
-      </form>
 
     </div>
 
