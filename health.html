@@ -55,6 +55,7 @@
             kml_coal.setMap(null); 
         }
       }
+ 
 
       //toggle this function to show the disease overlays 
       function toggle_overlay(myRadioButton) {
@@ -73,13 +74,13 @@
                 kml_path = 
                 "https://sites.google.com/site/geog54files/allegra_codamon/Lung_disease.kmz";
 
-                textString = "<p style="margin-left:10px">Legend</p> <img src = images/Lung_Legend.jpg style="margin-left:10px"><p style="margin-left:10px">Lung disease is common among coal workers, who inhale the particulates while in the mines all day. But the emissions often spread beyond the mines. A 2014 study from the West Virginia University Mary Babb Cancer Center found that living close to mines was correlated with incidences of lung cancer within the state.";
+                textString = "<p>Legend</p> <img src = images/Lung_Legend.jpg><p style=>Lung disease is common among coal workers, who inhale the particulates while in the mines all day. But the emissions often spread beyond the mines. A 2014 study from the West Virginia University Mary Babb Cancer Center found that living close to mines was correlated with incidences of lung cancer within the state.";
 
               } 
         else if (showLayer == "Cancer") {
 
                   kml_path = "https://sites.google.com/site/geog54files/allegra_codamon/Brain.kmz";
-                  textString = "<p style="margin-left:10px">Legend</p> <img src = images/Brain_Legend.jpg style="margin-left:10px"><p style="margin-left:10px">Studies have found correlations between the incidence of brain and other nervous system (ONS) cancers and proximity to mining sites. The emissions and particulates from mines, especially from surface level mines, will enter the surrounding air and water and are often carcinogens.";
+                  textString = "<p style>Legend</p> <img src = images/Brain_Legend.jpg style=><p style=>Studies have found correlations between the incidence of brain and other nervous system (ONS) cancers and proximity to mining sites. The emissions and particulates from mines, especially from surface level mines, will enter the surrounding air and water and are often carcinogens.";
 
               }  
         
@@ -189,7 +190,6 @@
         onclick="toggle_coal(this);">Hide 
 
       </form>
-      
 
     </div>
 
