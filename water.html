@@ -1,32 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Untitled Document</title>
-    <!-- Bootstrap -->
-	<link href="../../../../../../Applications/MAMP/htdocs/css/bootstrap.css" rel="stylesheet">
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
+<html>
+
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Link to Bootstrap CSS stylesheet -->
+  <link href="bootstrap.css" rel="stylesheet">
+
+    <title>Click on either disease to learn more.</title>
+    <style type="text/css">
+      html, body { height: 100%; margin: 50; padding: 15;}
+      #map-canvas { height: 80%; width: 100%; margin: 0; padding: 0; }
+    </style>
+
+
+    <!--Begin Javascript to use the API keys for Google Maps -->
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIXnuQOH674vFOPVaxIwA02NiKiU0IIeY">
+    </script>
+
+    <!-- Begin Javascript for toggle layers-->
+
+    <script type="text/javascript">
+
+
+
+    function initialize(){
+      var mapOptions = {
+        center: { lat: 39, lng: -81.4873},
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      };
+
+      map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+
+
+      kml_water = new google.maps.KmlLayer({
+                    url: kml_water,
+                    preserveViewport: true });
+
+
+      kml_water.setMap(map);
+
+    }
+
+    var map; 
+    var kml_water; 
+    var kml_coal; 
+
+
+    function toggleWater(myWaterButton){
+      var showWater; 
+      showWater = myWaterButton.value; 
+
+      if (showWater == "On"){
+        kml_water = new google.maps.KmlLayer({
+          url:"https://sites.google.com/site/geog54files/allegra_codamon/Rivers.kmz",
+          preserveViewport: true
+        }); 
+        kml_water.setMap(map); 
+        kml_coal.setMap(map); 
+      }
+      else if (showWater ==  "Off"){
+        kml_water.setMap(null); 
+
+      }
+    }
+
+    function toggleCoal(myCoalButton){ 
+      var showCoal; 
+      showCoal = myCoalButton.value; 
+
+      if (showCoal == "On" ){ 
+
+            kml_coal = new google.maps.KmlLayer({
+            url: "https://sites.google.com/site/geog54files/allegra_codamon/CoalSurfaceMines.kmz",
+            preserveViewport: true
+            });
+            kml_water.setMap(map); 
+            kml_coal.setMap(map);       
+
+        }
+        else if (showCoal == "Off" ){
+            kml_water.setMap(map); 
+            kml_coal.setMap(null); 
+        }
+
+    }
+
+    </script>
+
+
   </head>
-  <body style="padding-top: 70px">
-  <nav class="navbar navbar-default navbar-fixed-top">
+
+ <!-- begin the body of the page -->
+  <body onload="initialize()">
+
+    <!-- load the navbar at the top -->
+
+      <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topFixedNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-        <a class="navbar-brand" href="#">Mining In West Virginia</a></div>
+        <a class="navbar-brand" href="index.html">Mining In West Virginia</a></div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="topFixedNavbar1">
         <ul class="nav navbar-nav">
           <li><a href="health.html">Health </a></li>
-          <li><a href="water.html">Water</a>
+          <li><a href="water.html">Water</a></li>
           <li><a href="topography.html">Topography</a></li>
           </li>
         </ul>
@@ -36,9 +121,41 @@
     <!-- /.container-fluid -->
   </nav>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-	<script src="../../../../../../Applications/MAMP/htdocs/js/jquery-1.11.2.min.js"></script>
+  <script src="jquery-1.11.2.min.js"></script>
 
-	<!-- Include all compiled plugins (below), or include individual files as needed --> 
-	<script src="../../../../../../Applications/MAMP/htdocs/js/bootstrap.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed --> 
+  <script src="bootstrap.js"></script>
+
+    <div id="map-canvas"></div>
+
+
+    <div id="my-text"><p>Click on either disease to learn more.</p></div>
+
+    <!-- This div holds 2 forms. The first toggles the water layer, the second toggles the mine layer. margins pad the form div -->
+    <div style= "margin-left:30px; margin-bottom:100px" id="my-controls">
+      <p> <b> Display Water Location </b></p> 
+      <form style="margin-bottom:10px">
+        <input type="radio" name="my-Radio" value="On" 
+        onclick="toggleWater(this);">On
+        <br>
+        <input type="radio" name="my-Radio" value="Off"
+        onclick="toggleWater(this);">Off
+        <br>
+
+      </form>    
+
+      <p> <b> Display Coal Mine Locations </b></p> 
+      <form> 
+        <input type="radio" name="my-coalmines" value="On"
+        onclick="toggleCoal(this);">Show 
+        <br>
+        <input type="radio" name="my-coalmines" value="Off"
+        onclick="toggleCoal(this);">Hide 
+
+      </form>
+
+    </div>
+
   </body>
+
 </html>
