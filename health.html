@@ -3,12 +3,10 @@
 <html>
 
   <head>
-
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Untitled Document</title>
-    <!-- Bootstrap -->
+    <!-- Link to Bootstrap CSS stylesheet -->
   <link href="bootstrap.css" rel="stylesheet">
 
     <title>Click on either disease to learn more.</title>
@@ -18,27 +16,30 @@
     </style>
 
 
-
+    <!--Begin Javascript to use the API keys for Google Maps -->
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIXnuQOH674vFOPVaxIwA02NiKiU0IIeY">
     </script>
+
+    <!-- Begin Javascript for toggle layers-->
     <script type="text/javascript">
 
 
       var map;    // A variable to hold the map document
-      var kml_path;   // to hold the file path for a KML file
-      var kml_map;    // to represent a map layer
-      var kml_base; 
-      var kml_coal; 
+      var kml_path;   // file path for a KML file
+      var kml_map;    // to represent a disease map layer
+      var kml_coal;  // to represent the coal map layer
 
 
       //toggle this function when you want to show coal layers 
       function toggle_coal(mycoalminesButton){
 
+        //holds the value returned by the coal layer raio button 
         var showCoal; 
-
         showCoal = mycoalminesButton.value; 
 
+
+        //display the mines if the button is pressed, otherwise draw the disease layer and clear the mines layer
         if (showCoal == "On" ){ 
 
             kml_coal = new google.maps.KmlLayer({
@@ -63,11 +64,11 @@
         
         showLayer = myRadioButton.value; // Look at Radio button
 
-  
+        //set the map to null first 
         kml_map.setMap(null);
 
 
-        // Next, determine which year is being shown
+        // update the state values for the text strings and kml paths 
         if (showLayer == "Lung") {
                 kml_path = 
                 "https://sites.google.com/site/geog54files/allegra_codamon/Lung_disease.kmz";
@@ -83,10 +84,8 @@
               }  
         
         
-        //  BELOW IS THE 1st CODE SNIPPET
-                
-        // Now, create the new layer and add it to the map
-
+        
+          //show the layers 
           if (showLayer == "None") {
             textString = "<p>Click on one of the below to learn more about the health costs of mining</p>";  
             kml_map.setMap(null) ;
@@ -99,36 +98,22 @@
           } 
 
         
-        // Finally, set the map caption
+        // set the map caption
 
         document.getElementById('my-text').innerHTML = textString;
 
-          } // End of function toggle_overlay()
+          } 
 
 
 
-      // *************************************************************
-      // This Javascript function initializes (sets up) the map.  It   
-      // will be called when the web page is first loaded.         
-      // *************************************************************
-
+          // set up the initial map 
       function initialize() {
-
-      // 
-      // Set various options for the map (center lat/lon, zoom level,
-      // and map type.
-      //
 
       var mapOptions = {
         center: { lat: 39, lng: -81.4873},
         zoom: 6,
         mapTypeId: google.maps.MapTypeId.HYBRID
       };
-
-      // 
-      // Create the map!  This will insert the map canvas into the
-      // previously-empty "div" tag below, in the HTML body
-      //
 
       map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
@@ -143,23 +128,14 @@
                 document.getElementById('my-text').innerHTML = textString;
       }
 
-
-
-
-      // *************************************************************
-      // End of the Javascript function initialize().  
-      // *************************************************************
- 
     </script>
 
   </head>
 
-  <!-- *************************************************************** -->
-  <!-- Here is the body of the web page.  It displays text and a map.  -->
-  <!-- Note the call to "initialize()" when the body is loaded.        -->
-  <!-- *************************************************************** -->
-
+ <!-- begin the body of the page -->
   <body onload="initialize()">
+
+    <!-- load the navbar at the top -->
 
       <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -185,29 +161,15 @@
   <!-- Include all compiled plugins (below), or include individual files as needed --> 
   <script src="bootstrap.js"></script>
 
-    <!-- *************************************************************** -->
-    <!-- The following div appears to be empty, but will hold the map  -->
-    <!-- canvas (see Javascript function "initialize()" above).    -->
-    <!-- *************************************************************** -->
-
     <div id="map-canvas"></div>
 
-    <!-- *************************************************************** -->
-    <!-- The following div holds text to describe the map.  Its contents -->
-    <!-- will be changed by the function "toggle_overlay()".
-    <!-- *************************************************************** -->
 
     <div id="my-text"><p>Click on either disease to learn more.</p></div>
 
-    <!-- *************************************************************** -->
-    <!-- The following div holds a Radio-type control.  When clicked, -->
-    <!-- it calls the Javascript function "toggle_overlay()" to either   -->
-    <!-- show or hide the 2010 map overlay.            -->
-    <!-- *************************************************************** -->
-
-    <div id="my-controls">
+    <!-- This div holds 2 forms. The first toggles disease layers, the second toggles the mine layer. margins pad the form div -->
+    <div style= "margin-left:30px; margin-bottom:100px" id="my-controls">
       <p> <b> Disease Incidence Maps </b></p> 
-      <form>
+      <form style="margin-bottom:10px">
         <input type="radio" name="my-Radio" value="Lung" 
         onclick="toggle_overlay(this);">Lung Disease
         <br>
@@ -215,20 +177,15 @@
         onclick="toggle_overlay(this);">Brain and Other ONS Cancers
         <br>
 
-      </form>
-
-    <!--  AND THE SECOND CODE SNIPPET -->
-    
+      </form>    
 
       <p> <b> Display Surface Mine Locations </b></p> 
-      </form> 
+      <form> 
         <input type="radio" name="my-coalmines" value="On"
         onclick="toggle_coal(this);">Show 
         <br>
         <input type="radio" name="my-coalmines" value="Off"
         onclick="toggle_coal(this);">Hide 
-      <form>
-
 
       </form>
 
